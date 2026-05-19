@@ -392,12 +392,19 @@ function renderTT(){
     <td class="n" title="${rkPhrase}">${rkText}</td></tr>`;}).join('');
 }
 function renderPT(){
+  document.querySelector('#p-tbl thead').innerHTML=
+    '<tr><th>Región</th><th class="n">Precip. (mm)</th><th class="n">Anomalía (%)</th><th class="n">% área &gt;+30%</th><th class="n">% área &lt;−30%</th><th class="n">Ranking</th></tr>';
   const tb=document.querySelector('#p-tbl tbody');
-  if(!pSu.length){tb.innerHTML='<tr><td colspan="5">Sin datos</td></tr>';return;}
-  tb.innerHTML=pSu.map(r=>{const a=r['Anom. media (%)'];
+  if(!pSu.length){tb.innerHTML='<tr><td colspan="6">Sin datos</td></tr>';return;}
+  tb.innerHTML=pSu.map(r=>{
+    const a=r['Anom. media (%)'];
+    const rk=pRk.find(x=>x['Región']===r['Región']);
+    const rkText=rk?rk['Rank']:'–';
+    const rkPhrase=rk?rk['Frase']:'';
     return`<tr><td>${RL[r['Región']]||r['Región']}</td><td class="n">${F(r['Precip. media (mm)'],0)}</td>
     <td class="n ${a>=0?'neg':'pos'}">${a>=0?'+':''}${F(a,1)}%</td>
-    <td class="n">${F(r['% área >+30%'],0)}%</td><td class="n">${F(r['% área <−30%'],0)}%</td></tr>`;}).join('');
+    <td class="n">${F(r['% área >+30%'],0)}%</td><td class="n">${F(r['% área <−30%'],0)}%</td>
+    <td class="n" title="${rkPhrase}">${rkText}</td></tr>`;}).join('');
 }
 
 // Rankings — nacional + regional
