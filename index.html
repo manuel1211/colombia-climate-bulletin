@@ -9,325 +9,106 @@
 <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
-:root {
-  --c-bg: #ffffff;
-  --c-surface: #f5f7fa;
-  --c-border: #e2e6ea;
-  --c-ink: #1d2d3e;
-  --c-ink2: #4a5568;
-  --c-ink3: #8896a4;
-  --c-accent: #003399;
-  --c-accent2: #0066cc;
-  --c-warm: #d73027;
-  --c-cool: #2171b5;
-  --c-highlight: #fef3cd;
-  --font-body: 'Source Sans 3', -apple-system, sans-serif;
-  --font-display: 'Source Serif 4', Georgia, serif;
-  --max-w: 1200px;
-  --gap: 24px;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: var(--font-body); color: var(--c-ink); background: var(--c-bg); line-height: 1.6; font-size: 16px; }
+:root{--c-bg:#fff;--c-surface:#f5f7fa;--c-border:#e2e6ea;--c-ink:#1d2d3e;--c-ink2:#4a5568;--c-ink3:#8896a4;--c-accent:#003399;--c-warm:#d73027;--c-cool:#2171b5;--c-highlight:#fef3cd;--font-body:'Source Sans 3',-apple-system,sans-serif;--font-display:'Source Serif 4',Georgia,serif;--max-w:1200px;--gap:24px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--c-ink);background:var(--c-bg);line-height:1.6;font-size:16px}
 
-/* ── HEADER ───────────────────────────── */
-.site-header {
-  background: var(--c-ink);
-  color: #fff;
-  position: sticky; top: 0; z-index: 100;
-  border-bottom: 3px solid var(--c-accent);
-}
-.header-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 var(--gap);
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px;
-}
-.header-brand {
-  font-family: var(--font-display);
-  font-size: 18px; font-weight: 700;
-  letter-spacing: -0.01em;
-}
-.header-brand span { color: #8bb8e8; font-weight: 400; }
-.header-nav { display: flex; gap: 6px; }
-.header-nav a {
-  color: #c0cedc; text-decoration: none;
-  font-size: 13px; font-weight: 600;
-  padding: 6px 14px; border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
-  letter-spacing: 0.02em;
-}
-.header-nav a:hover, .header-nav a.active {
-  background: rgba(255,255,255,0.12); color: #fff;
-}
+.site-header{background:var(--c-ink);color:#fff;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--c-accent)}
+.header-inner{max-width:var(--max-w);margin:0 auto;padding:0 var(--gap);display:flex;align-items:center;justify-content:space-between;height:56px}
+.header-brand{font-family:var(--font-display);font-size:18px;font-weight:700}
+.header-brand span{color:#8bb8e8;font-weight:400}
+.header-nav{display:flex;gap:6px}
+.header-nav a{color:#c0cedc;text-decoration:none;font-size:13px;font-weight:600;padding:6px 14px;border-radius:4px;transition:background .2s,color .2s}
+.header-nav a:hover,.header-nav a.active{background:rgba(255,255,255,.12);color:#fff}
 
-/* ── HERO ─────────────────────────────── */
-.hero {
-  background: linear-gradient(135deg, #1d2d3e 0%, #2a4a6b 100%);
-  color: #fff;
-  padding: 64px var(--gap) 56px;
-  text-align: center;
-}
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 700; line-height: 1.15;
-  margin-bottom: 12px;
-}
-.hero .subtitle {
-  font-size: 18px; color: #a0b4c8;
-  max-width: 640px; margin: 0 auto 24px;
-}
-.hero .meta-bar {
-  display: inline-flex; gap: 24px; flex-wrap: wrap; justify-content: center;
-  font-size: 13px; color: #8bb8e8;
-  background: rgba(0,0,0,0.2); padding: 10px 28px; border-radius: 6px;
-}
-.hero .meta-bar strong { color: #fff; }
+.hero{background:linear-gradient(135deg,#1d2d3e 0%,#2a4a6b 100%);color:#fff;padding:64px var(--gap) 56px;text-align:center}
+.hero h1{font-family:var(--font-display);font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.15;margin-bottom:12px}
+.hero .subtitle{font-size:18px;color:#a0b4c8;max-width:640px;margin:0 auto 20px}
+.hero .month-picker{margin-bottom:20px}
+.hero .month-picker label{color:#8bb8e8;font-size:14px;font-weight:600}
+.hero .month-picker select{font-family:var(--font-body);font-size:15px;padding:8px 16px;border-radius:6px;border:none;margin-left:8px;background:#fff;color:var(--c-ink);cursor:pointer}
+.hero .meta-bar{display:inline-flex;gap:24px;flex-wrap:wrap;justify-content:center;font-size:13px;color:#8bb8e8;background:rgba(0,0,0,.2);padding:10px 28px;border-radius:6px}
+.hero .meta-bar strong{color:#fff}
 
-/* ── HIGHLIGHTS ───────────────────────── */
-.highlights {
-  max-width: var(--max-w); margin: -32px auto 0; padding: 0 var(--gap);
-  position: relative; z-index: 10;
-}
-.highlights-inner {
-  background: var(--c-bg);
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  padding: 28px 32px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-}
-.highlights h2 {
-  font-family: var(--font-display);
-  font-size: 22px; font-weight: 700;
-  margin-bottom: 16px; color: var(--c-accent);
-}
-.highlights ul { padding-left: 20px; }
-.highlights li { margin-bottom: 8px; color: var(--c-ink2); line-height: 1.55; }
-.highlights li strong { color: var(--c-ink); }
+.highlights{max-width:var(--max-w);margin:-32px auto 0;padding:0 var(--gap);position:relative;z-index:10}
+.highlights-inner{background:var(--c-bg);border:1px solid var(--c-border);border-radius:8px;padding:28px 32px;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+.highlights h2{font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:16px;color:var(--c-accent)}
+.hl-section-title{font-size:15px;font-weight:700;color:var(--c-ink);margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--c-border)}
+.hl-section-title:first-child{border-top:none;margin-top:0;padding-top:0}
+.highlights ul{padding-left:20px;margin:0}
+.highlights li{margin-bottom:6px;color:var(--c-ink2);line-height:1.5;font-size:15px}
+.highlights li strong{color:var(--c-ink)}
+.region-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 16px;margin-top:8px;list-style:none;padding:0}
+.region-grid li{background:var(--c-surface);border-radius:6px;padding:10px 14px;font-size:14px;margin:0}
+.region-grid li strong{display:block;font-size:14px;color:var(--c-accent);margin-bottom:2px}
 
-/* ── MAIN CONTENT ─────────────────────── */
-main { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gap); }
+main{max-width:var(--max-w);margin:0 auto;padding:0 var(--gap)}
+.section-tabs{display:flex;gap:4px;border-bottom:2px solid var(--c-border);margin:48px 0 0;overflow-x:auto}
+.section-tabs button{font-family:var(--font-body);font-size:14px;font-weight:600;padding:12px 24px;border:none;background:none;color:var(--c-ink3);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:color .2s,border-color .2s}
+.section-tabs button:hover{color:var(--c-ink)}
+.section-tabs button.active{color:var(--c-accent);border-bottom-color:var(--c-accent)}
+.tab-panel{display:none;padding:36px 0 48px}
+.tab-panel.active{display:block}
 
-/* ── SECTION TABS ─────────────────────── */
-.section-tabs {
-  display: flex; gap: 4px;
-  border-bottom: 2px solid var(--c-border);
-  margin: 48px 0 0;
-  padding: 0;
-  overflow-x: auto;
-}
-.section-tabs button {
-  font-family: var(--font-body);
-  font-size: 14px; font-weight: 600;
-  padding: 12px 24px;
-  border: none; background: none;
-  color: var(--c-ink3); cursor: pointer;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
-  white-space: nowrap;
-  transition: color 0.2s, border-color 0.2s;
-}
-.section-tabs button:hover { color: var(--c-ink); }
-.section-tabs button.active {
-  color: var(--c-accent); border-bottom-color: var(--c-accent);
-}
+.var-header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:8px}
+.var-header h2{font-family:var(--font-display);font-size:28px;font-weight:700;line-height:1.2}
+.var-header .source{font-size:13px;color:var(--c-ink3)}
+.var-intro{color:var(--c-ink2);max-width:800px;margin-bottom:32px;font-size:15px}
 
-.tab-panel { display: none; padding: 36px 0 48px; }
-.tab-panel.active { display: block; }
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
+.controls label{font-size:13px;font-weight:600;color:var(--c-ink2);margin-right:4px}
+.controls select{font-family:var(--font-body);font-size:14px;padding:8px 32px 8px 12px;border:1px solid var(--c-border);border-radius:6px;background:var(--c-surface);color:var(--c-ink);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' fill='none' stroke='%234a5568' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.view-buttons{display:flex;gap:0}
+.view-buttons button{font-family:var(--font-body);font-size:13px;font-weight:600;padding:8px 18px;border:1px solid var(--c-border);background:var(--c-surface);color:var(--c-ink2);cursor:pointer;transition:all .15s}
+.view-buttons button:first-child{border-radius:6px 0 0 6px}
+.view-buttons button:last-child{border-radius:0 6px 6px 0}
+.view-buttons button:not(:first-child){border-left:none}
+.view-buttons button.active{background:var(--c-accent);color:#fff;border-color:var(--c-accent)}
 
-/* ── VARIABLE SECTION ─────────────────── */
-.var-header {
-  display: flex; align-items: baseline; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
-  margin-bottom: 8px;
-}
-.var-header h2 {
-  font-family: var(--font-display);
-  font-size: 28px; font-weight: 700;
-  line-height: 1.2;
-}
-.var-header .source {
-  font-size: 13px; color: var(--c-ink3);
-}
+.maps-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px}
+.map-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:8px;overflow:hidden}
+.map-card img{width:100%;height:auto;display:block}
+.map-card .caption{padding:10px 14px;font-size:12px;color:var(--c-ink3);line-height:1.45;border-top:1px solid var(--c-border)}
 
-.var-intro {
-  color: var(--c-ink2);
-  max-width: 800px;
-  margin-bottom: 32px;
-  font-size: 15px;
-}
+.chart-container{background:var(--c-surface);border:1px solid var(--c-border);border-radius:8px;padding:8px;margin-bottom:16px}
+.chart-container .plotly-chart{width:100%;height:380px}
 
-/* ── CONTROLS ─────────────────────────── */
-.controls {
-  display: flex; gap: 12px; flex-wrap: wrap;
-  margin-bottom: 24px;
-  align-items: center;
-}
-.controls label {
-  font-size: 13px; font-weight: 600; color: var(--c-ink2);
-  margin-right: 4px;
-}
-.controls select {
-  font-family: var(--font-body);
-  font-size: 14px; padding: 8px 32px 8px 12px;
-  border: 1px solid var(--c-border); border-radius: 6px;
-  background: var(--c-surface); color: var(--c-ink);
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' fill='none' stroke='%234a5568' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-}
-.view-buttons { display: flex; gap: 0; }
-.view-buttons button {
-  font-family: var(--font-body);
-  font-size: 13px; font-weight: 600;
-  padding: 8px 18px;
-  border: 1px solid var(--c-border);
-  background: var(--c-surface); color: var(--c-ink2);
-  cursor: pointer; transition: all 0.15s;
-}
-.view-buttons button:first-child { border-radius: 6px 0 0 6px; }
-.view-buttons button:last-child { border-radius: 0 6px 6px 0; }
-.view-buttons button:not(:first-child) { border-left: none; }
-.view-buttons button.active {
-  background: var(--c-accent); color: #fff; border-color: var(--c-accent);
-}
+.summary-section{margin:32px 0}
+.summary-section h3{font-family:var(--font-display);font-size:20px;margin-bottom:16px}
+table.summary{width:100%;border-collapse:collapse;font-size:14px}
+table.summary th{background:var(--c-ink);color:#fff;font-weight:600;padding:10px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+table.summary td{padding:10px 14px;border-bottom:1px solid var(--c-border)}
+table.summary tr:hover td{background:#f0f4f8}
+table.summary .num{text-align:right;font-variant-numeric:tabular-nums}
+table.summary .pos{color:var(--c-warm);font-weight:600}
+table.summary .neg{color:var(--c-cool);font-weight:600}
 
-/* ── MAPS ─────────────────────────────── */
-.maps-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 12px;
-}
-.map-card {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.map-card img {
-  width: 100%; height: auto; display: block;
-}
-.map-card .caption {
-  padding: 10px 14px;
-  font-size: 12px; color: var(--c-ink3);
-  line-height: 1.45;
-  border-top: 1px solid var(--c-border);
-}
+.ranking-card{background:var(--c-highlight);border:1px solid #f0d78c;border-radius:8px;padding:20px 24px;margin:24px 0}
+.ranking-card h4{font-size:15px;margin-bottom:8px;color:var(--c-ink)}
+.ranking-card p{font-size:14px;color:var(--c-ink2);margin-bottom:4px}
+.ranking-card strong{color:var(--c-ink)}
 
-/* ── CHART ─────────────────────────────── */
-.chart-container {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  padding: 8px;
-  margin-bottom: 16px;
-}
-.chart-container .plotly-chart { width: 100%; height: 380px; }
+.narrative{background:var(--c-surface);border-left:4px solid var(--c-accent);padding:20px 24px;margin:24px 0;border-radius:0 8px 8px 0;font-size:15px;color:var(--c-ink2);line-height:1.65}
+.narrative strong{color:var(--c-ink)}
 
-/* ── SUMMARY TABLE ────────────────────── */
-.summary-section { margin: 32px 0; }
-.summary-section h3 {
-  font-family: var(--font-display);
-  font-size: 20px; margin-bottom: 16px;
-}
-table.summary {
-  width: 100%; border-collapse: collapse;
-  font-size: 14px;
-}
-table.summary th {
-  background: var(--c-ink);
-  color: #fff; font-weight: 600;
-  padding: 10px 14px; text-align: left;
-  font-size: 12px; text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-table.summary td {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--c-border);
-}
-table.summary tr:hover td { background: #f0f4f8; }
-table.summary .num { text-align: right; font-variant-numeric: tabular-nums; }
-table.summary .pos { color: var(--c-warm); font-weight: 600; }
-table.summary .neg { color: var(--c-cool); font-weight: 600; }
+.methodology{margin:48px 0;padding:32px 0;border-top:1px solid var(--c-border)}
+.methodology h3{font-family:var(--font-display);font-size:20px;margin-bottom:16px}
+.meth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.meth-card h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-accent);margin-bottom:8px}
+.meth-card p{font-size:14px;color:var(--c-ink2);line-height:1.55}
 
-/* ── RANKING ──────────────────────────── */
-.ranking-card {
-  background: var(--c-highlight);
-  border: 1px solid #f0d78c;
-  border-radius: 8px;
-  padding: 20px 24px;
-  margin: 24px 0;
-}
-.ranking-card h4 { font-size: 15px; margin-bottom: 8px; color: var(--c-ink); }
-.ranking-card p { font-size: 14px; color: var(--c-ink2); margin-bottom: 4px; }
-.ranking-card strong { color: var(--c-ink); }
+.site-footer{background:var(--c-ink);color:#8896a4;padding:36px var(--gap);text-align:center;font-size:13px;margin-top:64px}
+.site-footer a{color:#8bb8e8;text-decoration:none}
 
-/* ── NARRATIVE ────────────────────────── */
-.narrative {
-  background: var(--c-surface);
-  border-left: 4px solid var(--c-accent);
-  padding: 20px 24px;
-  margin: 24px 0;
-  border-radius: 0 8px 8px 0;
-  font-size: 15px; color: var(--c-ink2);
-  line-height: 1.65;
-}
-.narrative strong { color: var(--c-ink); }
-
-/* ── METHODOLOGY ──────────────────────── */
-.methodology {
-  margin: 48px 0;
-  padding: 32px 0;
-  border-top: 1px solid var(--c-border);
-}
-.methodology h3 {
-  font-family: var(--font-display);
-  font-size: 20px; margin-bottom: 16px;
-}
-.meth-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-.meth-card h4 {
-  font-size: 13px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--c-accent); margin-bottom: 8px;
-}
-.meth-card p { font-size: 14px; color: var(--c-ink2); line-height: 1.55; }
-
-/* ── FOOTER ───────────────────────────── */
-.site-footer {
-  background: var(--c-ink);
-  color: #8896a4;
-  padding: 36px var(--gap);
-  text-align: center;
-  font-size: 13px;
-  margin-top: 64px;
-}
-.site-footer a { color: #8bb8e8; text-decoration: none; }
-
-/* ── RESPONSIVE ───────────────────────── */
-@media (max-width: 768px) {
-  .maps-grid { grid-template-columns: 1fr; }
-  .meth-grid { grid-template-columns: 1fr; }
-  .header-nav { display: none; }
-  .controls { flex-direction: column; align-items: stretch; }
-}
+@media(max-width:768px){.maps-grid,.meth-grid{grid-template-columns:1fr}.header-nav{display:none}.controls{flex-direction:column;align-items:stretch}.region-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<!-- ═══════ HEADER ═══════ -->
 <header class="site-header">
   <div class="header-inner">
-    <div class="header-brand">
-      Colombia <span>Climate Bulletin</span>
-    </div>
+    <div class="header-brand">Colombia <span>Climate Bulletin</span></div>
     <nav class="header-nav">
       <a href="#highlights">Resumen</a>
       <a href="#temperatura" class="active">Temperatura</a>
@@ -337,240 +118,181 @@ table.summary .neg { color: var(--c-cool); font-weight: 600; }
   </div>
 </header>
 
-<!-- ═══════ HERO ═══════ -->
 <section class="hero">
   <h1>Boletín Climático Mensual</h1>
-  <p class="subtitle">
-    Resumen hidroclimático de Colombia basado en datos satelitales y de reanálisis.
-    Anomalías respecto al periodo de referencia 1991–2020.
-  </p>
+  <p class="subtitle">Resumen hidroclimático de Colombia basado en datos satelitales y de reanálisis. Anomalías respecto al periodo de referencia 1991–2020.</p>
+  <div class="month-picker">
+    <label>Seleccionar mes:</label>
+    <select id="month-selector"></select>
+  </div>
   <div class="meta-bar">
-    <span><strong>Mes:</strong> <span id="hero-month">marzo 2026</span></span>
+    <span><strong>Mes:</strong> <span id="hero-month"></span></span>
     <span><strong>Referencia:</strong> 1991–2020</span>
     <span><strong>Datos:</strong> ERA5-Land · CHIRPS v2.0</span>
     <span><strong>Credit:</strong> C3S/ECMWF · UCSB-CHG</span>
   </div>
 </section>
 
-<!-- ═══════ HIGHLIGHTS ═══════ -->
 <section class="highlights" id="highlights">
   <div class="highlights-inner">
     <h2>Aspectos destacados del mes</h2>
-    <ul id="highlights-list">
-      <li>Cargando datos del boletín...</li>
-    </ul>
+    <div id="highlights-content"><p>Cargando datos del boletín...</p></div>
   </div>
 </section>
 
-<!-- ═══════ MAIN ═══════ -->
 <main>
-
-  <!-- Section tabs -->
   <div class="section-tabs" role="tablist">
     <button class="active" data-tab="temperatura" role="tab">Temperatura del aire</button>
     <button data-tab="precipitacion" role="tab">Precipitación</button>
   </div>
 
-  <!-- ═══════ TEMPERATURA ═══════ -->
+  <!-- TEMPERATURA -->
   <div class="tab-panel active" id="temperatura">
     <div class="var-header">
       <h2>Temperatura del aire superficial</h2>
       <span class="source">Data source: ERA5-Land · Reference period: 1991–2020 · Credit: C3S/ECMWF</span>
     </div>
-    <p class="var-intro">
-      Anomalías de temperatura del aire superficial respecto al promedio del periodo 1991–2020.
-      Valores positivos indican condiciones más cálidas de lo normal; valores negativos, más frías.
-    </p>
-
-    <!-- Narrative -->
-    <div class="narrative" id="t-narrative">Cargando resumen...</div>
-
-    <!-- Controls -->
+    <p class="var-intro">Anomalías de temperatura del aire superficial respecto al promedio del periodo 1991–2020. Valores positivos indican condiciones más cálidas; negativos, más frías.</p>
+    <div class="narrative" id="t-narrative">Cargando...</div>
     <div class="controls">
-      <div>
-        <label>Variable:</label>
+      <div><label>Variable:</label>
         <select id="t-var-select">
           <option value="tmean">Temperatura media</option>
           <option value="tmax_mean">Tmax (prom. mensual)</option>
           <option value="tmin_mean">Tmin (prom. mensual)</option>
-        </select>
-      </div>
-      <div>
-        <label>Ámbito:</label>
+        </select></div>
+      <div><label>Ámbito:</label>
         <select id="t-region-select">
           <option value="Colombia">Colombia (nacional)</option>
-          <option value="Caribe">Caribe</option>
-          <option value="Andina">Andina</option>
-          <option value="Pacifica">Pacífica</option>
-          <option value="Orinoquia">Orinoquía</option>
+          <option value="Caribe">Caribe</option><option value="Andina">Andina</option>
+          <option value="Pacifica">Pacífica</option><option value="Orinoquia">Orinoquía</option>
           <option value="Amazonia">Amazonía</option>
-        </select>
-      </div>
+        </select></div>
       <div class="view-buttons" id="t-view-buttons">
-        <button class="active" data-view="march">Marzo</button>
+        <button class="active" data-view="march">Mes</button>
         <button data-view="allmonths">Todos los meses</button>
         <button data-view="rolling12">Prom. 12 meses</button>
       </div>
     </div>
-
-    <!-- Maps -->
-    <div class="maps-grid" id="t-maps">
-      <div class="map-card">
-        <img id="t-map-abs" src="img/t_tmean_current_202603.png" alt="Temperatura absoluta">
-        <div class="caption" id="t-map-abs-caption">
-          Temperatura media · Colombia · marzo 2026.
-          Data source: ERA5-Land. Credit: C3S/ECMWF.
-        </div>
-      </div>
-      <div class="map-card">
-        <img id="t-map-anom" src="img/t_tmean_anom_202603.png" alt="Anomalía de temperatura">
-        <div class="caption" id="t-map-anom-caption">
-          Anomalía de temperatura media respecto a 1991–2020 · Colombia · marzo 2026.
-          Data source: ERA5-Land. Credit: C3S/ECMWF.
-        </div>
-      </div>
+    <div class="maps-grid">
+      <div class="map-card"><img id="t-map-abs" src="" alt="Temperatura"><div class="caption" id="t-cap-abs"></div></div>
+      <div class="map-card"><img id="t-map-anom" src="" alt="Anomalía"><div class="caption" id="t-cap-anom"></div></div>
     </div>
-
-    <!-- Chart -->
-    <div class="chart-container">
-      <div id="t-chart" class="plotly-chart"></div>
-    </div>
-
-    <!-- Ranking -->
-    <div class="ranking-card" id="t-ranking">
-      <h4>📊 Ranking histórico</h4>
-      <p>Cargando...</p>
-    </div>
-
-    <!-- Summary table -->
+    <div class="chart-container"><div id="t-chart" class="plotly-chart"></div></div>
+    <div class="ranking-card" id="t-ranking"><h4>📊 Ranking</h4><p>Cargando...</p></div>
     <div class="summary-section">
       <h3>Resumen regional</h3>
       <table class="summary" id="t-table">
-        <thead><tr><th>Región</th><th>T media (°C)</th><th class="num">Anomalía (°C)</th><th class="num">% área &gt;+1°C</th><th class="num">% área &lt;−1°C</th></tr></thead>
-        <tbody><tr><td colspan="5">Cargando datos...</td></tr></tbody>
+        <thead><tr><th>Región</th><th class="num">T media (°C)</th><th class="num">Anomalía (°C)</th><th class="num">% área &gt;+1°C</th><th class="num">% área &lt;−1°C</th></tr></thead>
+        <tbody><tr><td colspan="5">Cargando...</td></tr></tbody>
       </table>
     </div>
   </div>
 
-  <!-- ═══════ PRECIPITACIÓN ═══════ -->
+  <!-- PRECIPITACIÓN -->
   <div class="tab-panel" id="precipitacion">
     <div class="var-header">
       <h2>Precipitación</h2>
       <span class="source">Data source: CHIRPS v2.0 · Reference period: 1991–2020 · Credit: UCSB-CHG</span>
     </div>
-    <p class="var-intro">
-      Anomalías de precipitación acumulada mensual respecto al promedio 1991–2020.
-      Valores positivos indican condiciones más húmedas; negativos, más secas.
-    </p>
-
-    <div class="narrative" id="p-narrative">Cargando resumen...</div>
-
+    <p class="var-intro">Anomalías de precipitación acumulada mensual respecto al promedio 1991–2020. Valores positivos = más húmedo; negativos = más seco.</p>
+    <div class="narrative" id="p-narrative">Cargando...</div>
     <div class="controls">
-      <div>
-        <label>Ámbito:</label>
+      <div><label>Ámbito:</label>
         <select id="p-region-select">
           <option value="Colombia">Colombia (nacional)</option>
-          <option value="Caribe">Caribe</option>
-          <option value="Andina">Andina</option>
-          <option value="Pacifica">Pacífica</option>
-          <option value="Orinoquia">Orinoquía</option>
+          <option value="Caribe">Caribe</option><option value="Andina">Andina</option>
+          <option value="Pacifica">Pacífica</option><option value="Orinoquia">Orinoquía</option>
           <option value="Amazonia">Amazonía</option>
-        </select>
-      </div>
+        </select></div>
       <div class="view-buttons" id="p-view-buttons">
-        <button class="active" data-view="march">Marzo</button>
+        <button class="active" data-view="march">Mes</button>
         <button data-view="allmonths">Todos los meses</button>
         <button data-view="rolling12">Prom. 12 meses</button>
       </div>
     </div>
-
-    <div class="maps-grid" id="p-maps">
-      <div class="map-card">
-        <img id="p-map-abs" src="img/p_total_202603.png" alt="Precipitación total">
-        <div class="caption">Precipitación acumulada · Colombia · marzo 2026. Data source: CHIRPS v2.0. Credit: UCSB-CHG.</div>
-      </div>
-      <div class="map-card">
-        <img id="p-map-anom" src="img/p_anom_pct_202603.png" alt="Anomalía de precipitación">
-        <div class="caption">Anomalía de precipitación (%) respecto a 1991–2020 · Colombia · marzo 2026. Data source: CHIRPS v2.0. Credit: UCSB-CHG.</div>
-      </div>
+    <div class="maps-grid">
+      <div class="map-card"><img id="p-map-abs" src="" alt="Precipitación"><div class="caption" id="p-cap-abs"></div></div>
+      <div class="map-card"><img id="p-map-anom" src="" alt="Anomalía"><div class="caption" id="p-cap-anom"></div></div>
     </div>
-
-    <div class="chart-container">
-      <div id="p-chart" class="plotly-chart"></div>
-    </div>
-
-    <div class="ranking-card" id="p-ranking">
-      <h4>📊 Ranking histórico</h4>
-      <p>Cargando...</p>
-    </div>
-
+    <div class="chart-container"><div id="p-chart" class="plotly-chart"></div></div>
+    <div class="ranking-card" id="p-ranking"><h4>📊 Ranking</h4><p>Cargando...</p></div>
     <div class="summary-section">
       <h3>Resumen regional</h3>
       <table class="summary" id="p-table">
-        <thead><tr><th>Región</th><th>Precip. (mm)</th><th class="num">Anomalía (%)</th><th class="num">% área &gt;+30%</th><th class="num">% área &lt;−30%</th></tr></thead>
-        <tbody><tr><td colspan="5">Cargando datos...</td></tr></tbody>
+        <thead><tr><th>Región</th><th class="num">Precip. (mm)</th><th class="num">Anomalía (%)</th><th class="num">% área &gt;+30%</th><th class="num">% área &lt;−30%</th></tr></thead>
+        <tbody><tr><td colspan="5">Cargando...</td></tr></tbody>
       </table>
     </div>
   </div>
 
-  <!-- ═══════ METHODOLOGY ═══════ -->
   <section class="methodology" id="metodologia">
     <h3>Notas metodológicas</h3>
     <div class="meth-grid">
-      <div class="meth-card">
-        <h4>Fuentes de datos</h4>
-        <p>Temperatura: ERA5-Land daily aggregated (ECMWF), ~11 km de resolución.
-           Precipitación: CHIRPS v2.0 (UCSB-CHG), ~5 km, combina satélite con estaciones.
-           Acceso vía Google Earth Engine.</p>
-      </div>
-      <div class="meth-card">
-        <h4>Periodo de referencia</h4>
-        <p>Todas las anomalías se calculan respecto a la climatología mensual 1991–2020,
-           siguiendo la convención de la WMO y de Copernicus C3S.
-           Rankings y series históricas se extienden hasta el año actual.</p>
-      </div>
-      <div class="meth-card">
-        <h4>Limitaciones</h4>
-        <p>ERA5-Land suaviza gradientes altitudinales andinos (~11 km).
-           CHIRPS puede subestimar eventos extremos en zonas con pocas estaciones.
-           Las regiones naturales se aproximan agrupando departamentos completos.</p>
-      </div>
+      <div class="meth-card"><h4>Fuentes de datos</h4><p>Temperatura: ERA5-Land daily aggregated (ECMWF), ~11 km. Precipitación: CHIRPS v2.0 (UCSB-CHG), ~5 km. Acceso vía Google Earth Engine.</p></div>
+      <div class="meth-card"><h4>Periodo de referencia</h4><p>Anomalías respecto a 1991–2020 (WMO/Copernicus). Rankings y series hasta el año actual.</p></div>
+      <div class="meth-card"><h4>Limitaciones</h4><p>ERA5-Land suaviza gradientes andinos. CHIRPS puede subestimar extremos. Regiones aproximadas por departamentos.</p></div>
     </div>
   </section>
-
 </main>
 
-<!-- ═══════ FOOTER ═══════ -->
 <footer class="site-footer">
   <p>Colombia Climate Bulletin · Reference period: 1991–2020<br>
   Data: <a href="https://cds.climate.copernicus.eu">ERA5-Land (C3S/ECMWF)</a> ·
   <a href="https://www.chc.ucsb.edu/data/chirps">CHIRPS v2.0 (UCSB-CHG)</a><br>
-  Procesamiento: Google Earth Engine · Código fuente disponible en
-  <a href="https://github.com/">GitHub</a></p>
+  Código fuente: <a href="https://github.com/manuel1211/colombia-climate-bulletin">GitHub</a></p>
 </footer>
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
-// CONFIG — Cambiar estos valores para cada edición mensual
+// MESES DISPONIBLES — agregar una línea cada mes
 // ═══════════════════════════════════════════════════════════════════
-const CONFIG = {
-  year: 2026,
-  month: 3,
-  monthName: 'marzo',
-  refStart: 1991,
-  refEnd: 2020,
-  // Carpetas relativas a index.html
-  dataDir: 'data',
-  imgDir:  'img',
-};
+const MONTHS_AVAILABLE = [
+  { year: 2026, month: 3, name: 'marzo' },
+  { year: 2026, month: 4, name: 'abril' },
+];
 
-const MONTH_NAMES = {1:'enero',2:'febrero',3:'marzo',4:'abril',5:'mayo',6:'junio',
-                     7:'julio',8:'agosto',9:'septiembre',10:'octubre',11:'noviembre',12:'diciembre'};
-const mm = String(CONFIG.month).padStart(2,'0');
+const MNAMES = {1:'enero',2:'febrero',3:'marzo',4:'abril',5:'mayo',6:'junio',
+                7:'julio',8:'agosto',9:'septiembre',10:'octubre',11:'noviembre',12:'diciembre'};
+const REGIONS = ['Caribe','Andina','Pacifica','Orinoquia','Amazonia'];
+const RLABEL = {Caribe:'Caribe',Andina:'Andina',Pacifica:'Pacífica',Orinoquia:'Orinoquía',Amazonia:'Amazonía'};
 
-// ═══════════════════════════════════════════════════════════════════
-// TABS
-// ═══════════════════════════════════════════════════════════════════
+// Estado actual
+let CFG = { refStart:1991, refEnd:2020, dataDir:'data', imgDir:'img' };
+let mm = '03';
+
+// Inicializar selector
+const monthSel = document.getElementById('month-selector');
+MONTHS_AVAILABLE.forEach((m, i) => {
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = `${m.name.charAt(0).toUpperCase() + m.name.slice(1)} ${m.year}`;
+  if (i === MONTHS_AVAILABLE.length - 1) opt.selected = true;
+  monthSel.appendChild(opt);
+});
+
+function setMonth(idx) {
+  const m = MONTHS_AVAILABLE[idx];
+  CFG.year = m.year; CFG.month = m.month; CFG.monthName = m.name;
+  mm = String(m.month).padStart(2, '0');
+  document.getElementById('hero-month').textContent = `${m.name} ${m.year}`;
+
+  // Actualizar mapas
+  document.getElementById('t-map-abs').src = `${CFG.imgDir}/t_tmean_current_${CFG.year}${mm}.png`;
+  document.getElementById('t-map-anom').src = `${CFG.imgDir}/t_tmean_anom_${CFG.year}${mm}.png`;
+  document.getElementById('t-cap-abs').textContent = `Temperatura media · Colombia · ${m.name} ${m.year}. Data source: ERA5-Land. Credit: C3S/ECMWF.`;
+  document.getElementById('t-cap-anom').textContent = `Anomalía respecto a 1991–2020 · Colombia · ${m.name} ${m.year}. Data source: ERA5-Land. Credit: C3S/ECMWF.`;
+  document.getElementById('p-map-abs').src = `${CFG.imgDir}/p_total_${CFG.year}${mm}.png`;
+  document.getElementById('p-map-anom').src = `${CFG.imgDir}/p_anom_pct_${CFG.year}${mm}.png`;
+  document.getElementById('p-cap-abs').textContent = `Precipitación acumulada · Colombia · ${m.name} ${m.year}. Data source: CHIRPS v2.0. Credit: UCSB-CHG.`;
+  document.getElementById('p-cap-anom').textContent = `Anomalía (%) respecto a 1991–2020 · Colombia · ${m.name} ${m.year}. Data source: CHIRPS v2.0. Credit: UCSB-CHG.`;
+
+  loadAllData();
+}
+
+monthSel.addEventListener('change', function() { setMonth(parseInt(this.value)); });
+
+// ── Tabs ──
 document.querySelectorAll('.section-tabs button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.section-tabs button').forEach(b => b.classList.remove('active'));
@@ -579,312 +301,212 @@ document.querySelectorAll('.section-tabs button').forEach(btn => {
     document.getElementById(btn.dataset.tab).classList.add('active');
   });
 });
-
-// View buttons
 document.querySelectorAll('.view-buttons').forEach(group => {
   group.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {
       group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      // Trigger chart update
-      const section = group.id.startsWith('t-') ? 'temp' : 'precip';
-      if (section === 'temp') renderTempChart();
+      if (group.id.startsWith('t-')) renderTempChart();
       else renderPrecipChart();
     });
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════
-// DATA LOADING
-// ═══════════════════════════════════════════════════════════════════
-let tTrendData = [], tAllMonthsData = [], tSummaryData = [], tRankingData = [];
-let pTrendData = [], pAllMonthsData = [], pSummaryData = [], pRankingData = [];
-let tNarrativeText = '', pNarrativeText = '';
+// ── Data ──
+let tTrend=[],tAll=[],tSum=[],tRank=[],pTrend=[],pAll=[],pSum=[],pRank=[];
+let tNarr='',pNarr='';
 
-function loadCSV(path) {
-  return new Promise((resolve, reject) => {
-    Papa.parse(path, {
-      download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
-      complete: r => resolve(r.data),
-      error: e => { console.warn('CSV load failed:', path, e); resolve([]); }
-    });
+function loadCSV(path){
+  return new Promise(res=>{
+    Papa.parse(path,{download:true,header:true,dynamicTyping:true,skipEmptyLines:true,
+      complete:r=>res(r.data),error:()=>res([])});
   });
 }
+function loadText(p){return fetch(p).then(r=>r.ok?r.text():'').catch(()=>'');}
 
-function loadText(path) {
-  return fetch(path).then(r => r.ok ? r.text() : '').catch(() => '');
-}
-
-async function loadAllData() {
-  const prefix = CONFIG.dataDir;
-  [tTrendData, tAllMonthsData, tSummaryData, tRankingData,
-   pTrendData, pAllMonthsData, pSummaryData, pRankingData] = await Promise.all([
-    loadCSV(`${prefix}/t_trend_${CONFIG.year}${mm}.csv`),
-    loadCSV(`${prefix}/t_allmonths_${CONFIG.year}.csv`),
-    loadCSV(`${prefix}/t_resumen_${CONFIG.year}${mm}.csv`),
-    loadCSV(`${prefix}/t_ranking_${CONFIG.year}${mm}.csv`),
-    loadCSV(`${prefix}/p_trend_${CONFIG.year}${mm}.csv`),
-    loadCSV(`${prefix}/p_allmonths_${CONFIG.year}.csv`),
-    loadCSV(`${prefix}/p_resumen_${CONFIG.year}${mm}.csv`),
-    loadCSV(`${prefix}/p_ranking_${CONFIG.year}${mm}.csv`),
+async function loadAllData(){
+  const d=CFG.dataDir, y=CFG.year;
+  [tTrend,tAll,tSum,tRank,pTrend,pAll,pSum,pRank]=await Promise.all([
+    loadCSV(`${d}/t_trend_${y}${mm}.csv`),
+    loadCSV(`${d}/t_allmonths_${y}.csv`),
+    loadCSV(`${d}/t_resumen_${y}${mm}.csv`),
+    loadCSV(`${d}/t_ranking_${y}${mm}.csv`),
+    loadCSV(`${d}/p_trend_${y}${mm}.csv`),
+    loadCSV(`${d}/p_allmonths_${y}.csv`),
+    loadCSV(`${d}/p_resumen_${y}${mm}.csv`),
+    loadCSV(`${d}/p_ranking_${y}${mm}.csv`),
   ]);
-
-  // Load narratives
-  const [tNarr, pNarr] = await Promise.all([
-    loadText(`${prefix}/t_narrativa_${CONFIG.year}${mm}.md`),
-    loadText(`${prefix}/p_narrativa_${CONFIG.year}${mm}.md`),
+  [tNarr,pNarr]=await Promise.all([
+    loadText(`${d}/t_narrativa_${y}${mm}.md`),
+    loadText(`${d}/p_narrativa_${y}${mm}.md`),
   ]);
-  tNarrativeText = tNarr; pNarrativeText = pNarr;
-
   renderAll();
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// RENDERING
-// ═══════════════════════════════════════════════════════════════════
+// ── Render ──
+function md2html(s){return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');}
+function fmt(v,d){return v!=null&&!isNaN(v)?Number(v).toFixed(d):'–';}
 
-function renderAll() {
-  renderNarratives();
-  renderHighlights();
-  renderTempTable();
-  renderPrecipTable();
-  renderTempRanking();
-  renderPrecipRanking();
-  renderTempChart();
-  renderPrecipChart();
+function renderAll(){
+  renderHighlights();renderNarratives();
+  renderTempTable();renderPrecipTable();
+  renderTempRanking();renderPrecipRanking();
+  renderTempChart();renderPrecipChart();
 }
 
-function renderNarratives() {
-  // Simple markdown → HTML (bold only)
-  const md2html = s => s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-  const tEl = document.getElementById('t-narrative');
-  const pEl = document.getElementById('p-narrative');
-  tEl.innerHTML = tNarrativeText ? md2html(tNarrativeText.split('###')[0]) : 'Sin datos disponibles.';
-  pEl.innerHTML = pNarrativeText ? md2html(pNarrativeText.split('###')[0]) : 'Sin datos disponibles.';
+function renderNarratives(){
+  document.getElementById('t-narrative').innerHTML=tNarr?md2html(tNarr.split('###')[0]):'Sin datos.';
+  document.getElementById('p-narrative').innerHTML=pNarr?md2html(pNarr.split('###')[0]):'Sin datos.';
 }
 
-function renderHighlights() {
-  const items = [];
-  const regions = ['Caribe','Andina','Pacifica','Orinoquia','Amazonia'];
+function renderHighlights(){
+  const el=document.getElementById('highlights-content');
+  let h='';
 
-  // ── Nacional ──
-  items.push('<strong style="font-size:15px;">Resumen nacional</strong>');
-  const tNat = tSummaryData.find(r => r['Región'] === 'Colombia' && r['Variable'] === 'T media');
-  if (tNat) {
-    const a = tNat['Anomalía media (°C)'];
-    const sign = a >= 0 ? 'más cálido' : 'más frío';
-    items.push(`Temperatura media nacional: <strong>${tNat['T mes (°C)']?.toFixed(1)}°C</strong> (${sign}, anomalía ${a>=0?'+':''}${a?.toFixed(2)}°C vs. ${CONFIG.refStart}–${CONFIG.refEnd}).`);
+  h+='<div class="hl-section-title">🇨🇴 Resumen nacional</div><ul>';
+  const tN=tSum.find(r=>r['Región']==='Colombia'&&r['Variable']==='T media');
+  if(tN){const a=tN['Anomalía media (°C)'];
+    h+=`<li>Temperatura media: <strong>${fmt(tN['T mes (°C)'],1)}°C</strong> (${a>=0?'más cálido':'más frío'}, anomalía ${a>=0?'+':''}${fmt(a,2)}°C vs. ${CFG.refStart}–${CFG.refEnd}).</li>`;}
+  const pN=pSum.find(r=>r['Región']==='Colombia');
+  if(pN){const a=pN['Anom. media (%)'];
+    h+=`<li>Precipitación: <strong>${a>=0?'más lluvioso':'más seco'}</strong> de lo normal (${a>=0?'+':''}${fmt(a,1)}% vs. ${CFG.refStart}–${CFG.refEnd}).</li>`;}
+  const tRk=tRank.find(r=>r['Región']==='Colombia'&&r['Variable']==='T media');
+  if(tRk)h+=`<li>Ranking temperatura: <strong>${tRk['Frase']}</strong>.</li>`;
+  const pRk=pRank.find(r=>r['Región']==='Colombia');
+  if(pRk)h+=`<li>Ranking precipitación: <strong>${pRk['Frase']}</strong>.</li>`;
+  h+='</ul>';
+
+  h+='<div class="hl-section-title">📍 Resumen por región</div><ul class="region-grid">';
+  for(const reg of REGIONS){
+    const lb=RLABEL[reg]||reg; const parts=[];
+    const tR=tSum.find(r=>r['Región']===reg&&r['Variable']==='T media');
+    if(tR){const a=tR['Anomalía media (°C)']; parts.push(`T: ${a>=0?'+':''}${fmt(a,1)}°C`);}
+    const pR=pSum.find(r=>r['Región']===reg);
+    if(pR){const a=pR['Anom. media (%)']; parts.push(`Precip: ${a>=0?'+':''}${fmt(a,0)}%`);}
+    h+=`<li><strong>${lb}</strong>${parts.join(' · ')}</li>`;
   }
-  const pNat = pSummaryData.find(r => r['Región'] === 'Colombia');
-  if (pNat) {
-    const a = pNat['Anom. media (%)'];
-    const sign = a >= 0 ? 'más lluvioso' : 'más seco';
-    items.push(`Precipitación nacional: <strong>${sign}</strong> de lo normal (${a>=0?'+':''}${a?.toFixed(1)}% vs. ${CONFIG.refStart}–${CONFIG.refEnd}).`);
-  }
-  const tRk = tRankingData.find(r => r['Región'] === 'Colombia' && r['Variable'] === 'T media');
-  if (tRk) items.push(`Ranking temperatura: <strong>${tRk['Frase']}</strong>.`);
-  const pRk = pRankingData.find(r => r['Región'] === 'Colombia');
-  if (pRk) items.push(`Ranking precipitación: <strong>${pRk['Frase']}</strong>.`);
-
-  // ── Regional ──
-  items.push('<br><strong style="font-size:15px;">Resumen por región</strong>');
-  for (const reg of regions) {
-    const parts = [];
-    const tR = tSummaryData.find(r => r['Región'] === reg && r['Variable'] === 'T media');
-    if (tR) {
-      const a = tR['Anomalía media (°C)'];
-      parts.push(`T ${a>=0?'+':''}${a?.toFixed(1)}°C`);
-    }
-    const pR = pSummaryData.find(r => r['Región'] === reg);
-    if (pR) {
-      const a = pR['Anom. media (%)'];
-      parts.push(`precip. ${a>=0?'+':''}${a?.toFixed(0)}%`);
-    }
-    if (parts.length) {
-      items.push(`<strong>${reg}</strong>: ${parts.join(' · ')}.`);
-    }
-  }
-
-  const list = document.getElementById('highlights-list');
-  list.innerHTML = items.map(i => `<li>${i}</li>`).join('');
+  h+='</ul>';
+  el.innerHTML=h;
 }
 
-function renderTempTable() {
-  const tbody = document.querySelector('#t-table tbody');
-  const rows = tSummaryData.filter(r => r['Variable'] === 'T media');
-  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="5">Sin datos</td></tr>'; return; }
-  tbody.innerHTML = rows.map(r => {
-    const a = r['Anomalía media (°C)'];
-    const cls = a >= 0 ? 'pos' : 'neg';
-    return `<tr>
-      <td>${r['Región']}</td>
-      <td class="num">${r['T mes (°C)']?.toFixed(1)}</td>
-      <td class="num ${cls}">${a >= 0 ? '+' : ''}${a?.toFixed(2)}</td>
-      <td class="num">${r['% área >+1°C']?.toFixed(0) ?? '–'}%</td>
-      <td class="num">${r['% área <−1°C']?.toFixed(0) ?? '–'}%</td>
-    </tr>`;
-  }).join('');
+function renderTempTable(){
+  const tb=document.querySelector('#t-table tbody');
+  const rows=tSum.filter(r=>r['Variable']==='T media');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="5">Sin datos</td></tr>';return;}
+  tb.innerHTML=rows.map(r=>{const a=r['Anomalía media (°C)'];
+    return`<tr><td>${r['Región']}</td><td class="num">${fmt(r['T mes (°C)'],1)}</td>
+    <td class="num ${a>=0?'pos':'neg'}">${a>=0?'+':''}${fmt(a,2)}</td>
+    <td class="num">${fmt(r['% área >+1°C'],0)}%</td>
+    <td class="num">${fmt(r['% área <−1°C'],0)}%</td></tr>`;}).join('');
+}
+function renderPrecipTable(){
+  const tb=document.querySelector('#p-table tbody');
+  if(!pSum.length){tb.innerHTML='<tr><td colspan="5">Sin datos</td></tr>';return;}
+  tb.innerHTML=pSum.map(r=>{const a=r['Anom. media (%)'];
+    return`<tr><td>${r['Región']}</td><td class="num">${fmt(r['Precip. media (mm)'],0)}</td>
+    <td class="num ${a>=0?'neg':'pos'}">${a>=0?'+':''}${fmt(a,1)}%</td>
+    <td class="num">${fmt(r['% área >+30%'],0)}%</td>
+    <td class="num">${fmt(r['% área <−30%'],0)}%</td></tr>`;}).join('');
 }
 
-function renderPrecipTable() {
-  const tbody = document.querySelector('#p-table tbody');
-  if (!pSummaryData.length) { tbody.innerHTML = '<tr><td colspan="5">Sin datos</td></tr>'; return; }
-  tbody.innerHTML = pSummaryData.map(r => {
-    const a = r['Anom. media (%)'];
-    const cls = a >= 0 ? 'neg' : 'pos'; // Inverted: more rain = blue, less = red visually
-    return `<tr>
-      <td>${r['Región']}</td>
-      <td class="num">${r['Precip. media (mm)']?.toFixed(0)}</td>
-      <td class="num ${cls}">${a >= 0 ? '+' : ''}${a?.toFixed(1)}%</td>
-      <td class="num">${r['% área >+30%']?.toFixed(0) ?? '–'}%</td>
-      <td class="num">${r['% área <−30%']?.toFixed(0) ?? '–'}%</td>
-    </tr>`;
-  }).join('');
-}
-
-function renderTempRanking() {
-  const el = document.getElementById('t-ranking');
-  const rk = tRankingData.find(r => r['Región'] === 'Colombia' && r['Variable'] === 'T media');
-  if (!rk) { el.querySelector('p').textContent = 'Sin datos'; return; }
-  el.innerHTML = `<h4>📊 Ranking histórico — Temperatura</h4>
+function renderTempRanking(){
+  const el=document.getElementById('t-ranking');
+  const rk=tRank.find(r=>r['Región']==='Colombia'&&r['Variable']==='T media');
+  if(!rk){el.innerHTML='<h4>📊 Ranking</h4><p>Sin datos</p>';return;}
+  el.innerHTML=`<h4>📊 Ranking histórico — Temperatura</h4>
     <p><strong>${rk['Frase']}</strong></p>
-    <p>Valor: ${Number(rk['Valor']).toFixed(1)}°C · Anomalía: ${rk['Anomalía']} · ${rk['Percentil']} · Récord: ${rk['Récord']}</p>`;
+    <p>Valor: ${fmt(rk['Valor'],1)}°C · Anomalía: ${rk['Anomalía']} · ${rk['Percentil']} · Récord: ${rk['Récord']}</p>`;
 }
-
-function renderPrecipRanking() {
-  const el = document.getElementById('p-ranking');
-  const rk = pRankingData.find(r => r['Región'] === 'Colombia');
-  if (!rk) { el.querySelector('p').textContent = 'Sin datos'; return; }
-  el.innerHTML = `<h4>📊 Ranking histórico — Precipitación</h4>
+function renderPrecipRanking(){
+  const el=document.getElementById('p-ranking');
+  const rk=pRank.find(r=>r['Región']==='Colombia');
+  if(!rk){el.innerHTML='<h4>📊 Ranking</h4><p>Sin datos</p>';return;}
+  el.innerHTML=`<h4>📊 Ranking histórico — Precipitación</h4>
     <p><strong>${rk['Frase']}</strong></p>
-    <p>Valor: ${Number(rk['Valor']).toFixed(0)} mm · Anomalía: ${Number(rk['Anomalía_%']).toFixed(1)}% · ${rk['Percentil']} · Récord: ${rk['Récord']}</p>`;
+    <p>Valor: ${fmt(rk['Valor'],0)} mm · Anomalía: ${fmt(rk['Anomalía_%'],1)}% · ${rk['Percentil']} · Récord: ${rk['Récord']}</p>`;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// PLOTLY CHARTS
-// ═══════════════════════════════════════════════════════════════════
+// ── Plotly ──
+function getView(pre){const b=document.querySelector(`#${pre}-view-buttons button.active`);return b?b.dataset.view:'march';}
+const PL={template:'plotly_white',height:370,margin:{l:60,r:30,t:80,b:40}};
 
-function getActiveView(prefix) {
-  const btn = document.querySelector(`#${prefix}-view-buttons button.active`);
-  return btn ? btn.dataset.view : 'march';
-}
+function renderTempChart(){
+  const vk=document.getElementById('t-var-select').value;
+  const reg=document.getElementById('t-region-select').value;
+  const view=getView('t'), el=document.getElementById('t-chart');
+  const cr=`Reference period: ${CFG.refStart}–${CFG.refEnd} · Data: ERA5-Land · Credit: C3S/ECMWF`;
+  const mn=CFG.monthName;
 
-function renderTempChart() {
-  const varKey = document.getElementById('t-var-select').value;
-  const region = document.getElementById('t-region-select').value;
-  const view = getActiveView('t');
-  const el = document.getElementById('t-chart');
-
-  if (view === 'march') {
-    const data = tTrendData.filter(r => r.variable === varKey && r.region === region);
-    if (!data.length) { el.innerHTML = '<p>Sin datos</p>'; return; }
-    const colors = data.map(r => r.anomaly >= 0 ? '#d73027' : '#2171b5');
-    const borders = data.map(r => r.year === CONFIG.year ? '#333' : 'rgba(0,0,0,0.1)');
-    Plotly.newPlot(el, [{
-      type: 'bar', x: data.map(r => r.year), y: data.map(r => r.anomaly),
-      marker: { color: colors, line: { color: borders, width: data.map(r => r.year === CONFIG.year ? 2.5 : 0.3) } },
-      hovertemplate: `${region}<br>Año: %{x}<br>Anomalía: %{y:+.2f}°C<extra></extra>`,
-    }], {
-      title: { text: `Anomalía de ${CONFIG.monthName} · ${region}<br><sub>Reference period: ${CONFIG.refStart}–${CONFIG.refEnd} · Data: ERA5-Land · Credit: C3S/ECMWF</sub>` },
-      yaxis: { title: 'Anomalía (°C)' },
-      template: 'plotly_white', height: 370,
-      shapes: [{ type: 'line', x0: 0, x1: 1, xref: 'paper', y0: 0, y1: 0, line: { color: '#333', width: 1 } }],
-    }, { responsive: true });
-
-  } else if (view === 'allmonths') {
-    const data = tAllMonthsData.filter(r => r.variable === varKey && r.region === region);
-    if (!data.length) { el.innerHTML = '<p>Sin datos</p>'; return; }
-    const colors = data.map(r => r.anomaly >= 0 ? '#d73027' : '#2171b5');
-    Plotly.newPlot(el, [{
-      type: 'bar', x: data.map(r => r.date), y: data.map(r => r.anomaly),
-      marker: { color: colors },
-      hovertemplate: `${region}<br>%{x|%b %Y}<br>Anomalía: %{y:+.2f}°C<extra></extra>`,
-    }], {
-      title: { text: `Anomalía mensual · ${region}<br><sub>Reference period: ${CONFIG.refStart}–${CONFIG.refEnd} · Data: ERA5-Land · Credit: C3S/ECMWF</sub>` },
-      yaxis: { title: 'Anomalía (°C)' },
-      template: 'plotly_white', height: 370,
-    }, { responsive: true });
-
-  } else { // rolling12
-    const data = tAllMonthsData.filter(r => r.variable === varKey && r.region === region && r.rolling_12 != null);
-    if (!data.length) { el.innerHTML = '<p>Sin datos</p>'; return; }
-    const pos = data.map(r => Math.max(0, r.rolling_12));
-    const neg = data.map(r => Math.min(0, r.rolling_12));
-    const dates = data.map(r => r.date);
-    Plotly.newPlot(el, [
-      { type: 'scatter', x: dates, y: pos, fill: 'tozeroy', fillcolor: 'rgba(215,48,39,0.5)', line: { width: 0 }, hoverinfo: 'skip', showlegend: false },
-      { type: 'scatter', x: dates, y: neg, fill: 'tozeroy', fillcolor: 'rgba(33,113,181,0.5)', line: { width: 0 }, hoverinfo: 'skip', showlegend: false },
-      { type: 'scatter', x: dates, y: data.map(r => r.rolling_12), mode: 'lines', line: { color: '#333', width: 1.2 },
-        hovertemplate: `${region}<br>%{x|%b %Y}<br>Prom. 12m: %{y:+.2f}°C<extra></extra>`, showlegend: false },
-    ], {
-      title: { text: `Promedio móvil 12 meses · ${region}<br><sub>Reference period: ${CONFIG.refStart}–${CONFIG.refEnd} · Data: ERA5-Land · Credit: C3S/ECMWF</sub>` },
-      yaxis: { title: 'Anomalía 12m (°C)' },
-      template: 'plotly_white', height: 370,
-    }, { responsive: true });
+  if(view==='march'){
+    const d=tTrend.filter(r=>r.variable===vk&&r.region===reg);
+    if(!d.length){Plotly.purge(el);el.innerHTML='<p>Sin datos</p>';return;}
+    Plotly.newPlot(el,[{type:'bar',x:d.map(r=>r.year),y:d.map(r=>r.anomaly),
+      marker:{color:d.map(r=>r.anomaly>=0?'#d73027':'#2171b5'),
+      line:{color:d.map(r=>r.year===CFG.year?'#333':'rgba(0,0,0,.1)'),width:d.map(r=>r.year===CFG.year?2.5:.3)}},
+      hovertemplate:`${reg}<br>Año: %{x}<br>Anomalía: %{y:+.2f}°C<extra></extra>`}],
+      {...PL,title:{text:`Anomalía de ${mn} · ${reg}<br><sub>${cr}</sub>`},yaxis:{title:'Anomalía (°C)'},
+      shapes:[{type:'line',x0:0,x1:1,xref:'paper',y0:0,y1:0,line:{color:'#333',width:1}}]},{responsive:true});
+  }else if(view==='allmonths'){
+    const d=tAll.filter(r=>r.variable===vk&&r.region===reg);
+    if(!d.length){Plotly.purge(el);el.innerHTML='<p>Sin datos</p>';return;}
+    Plotly.newPlot(el,[{type:'bar',x:d.map(r=>r.date),y:d.map(r=>r.anomaly),
+      marker:{color:d.map(r=>r.anomaly>=0?'#d73027':'#2171b5')},
+      hovertemplate:`${reg}<br>%{x|%b %Y}<br>Anomalía: %{y:+.2f}°C<extra></extra>`}],
+      {...PL,title:{text:`Anomalía mensual · ${reg}<br><sub>${cr}</sub>`},yaxis:{title:'Anomalía (°C)'}},{responsive:true});
+  }else{
+    const d=tAll.filter(r=>r.variable===vk&&r.region===reg&&r.rolling_12!=null);
+    if(!d.length){Plotly.purge(el);el.innerHTML='<p>Sin datos</p>';return;}
+    Plotly.newPlot(el,[
+      {type:'scatter',x:d.map(r=>r.date),y:d.map(r=>Math.max(0,r.rolling_12)),fill:'tozeroy',fillcolor:'rgba(215,48,39,.5)',line:{width:0},hoverinfo:'skip',showlegend:false},
+      {type:'scatter',x:d.map(r=>r.date),y:d.map(r=>Math.min(0,r.rolling_12)),fill:'tozeroy',fillcolor:'rgba(33,113,181,.5)',line:{width:0},hoverinfo:'skip',showlegend:false},
+      {type:'scatter',x:d.map(r=>r.date),y:d.map(r=>r.rolling_12),mode:'lines',line:{color:'#333',width:1.2},
+       hovertemplate:`${reg}<br>%{x|%b %Y}<br>Prom. 12m: %{y:+.2f}°C<extra></extra>`,showlegend:false}],
+      {...PL,title:{text:`Promedio móvil 12 meses · ${reg}<br><sub>${cr}</sub>`},yaxis:{title:'Anomalía 12m (°C)'},
+      shapes:[{type:'line',x0:0,x1:1,xref:'paper',y0:0,y1:0,line:{color:'#333',width:1}}]},{responsive:true});
   }
 }
 
-function renderPrecipChart() {
-  const region = document.getElementById('p-region-select').value;
-  const view = getActiveView('p');
-  const el = document.getElementById('p-chart');
+function renderPrecipChart(){
+  const reg=document.getElementById('p-region-select').value;
+  const view=getView('p'), el=document.getElementById('p-chart');
+  const cr=`Reference period: ${CFG.refStart}–${CFG.refEnd} · Data: CHIRPS v2.0 · Credit: UCSB-CHG`;
+  const mn=CFG.monthName;
 
-  if (view === 'march') {
-    const data = pTrendData.filter(r => r.variable === 'precip' && r.region === region);
-    if (!data.length) { el.innerHTML = '<p>Sin datos</p>'; return; }
-    // INVERTED: blue = more rain (positive), red = less rain (negative)
-    const colors = data.map(r => r.anomaly_pct >= 0 ? '#2171b5' : '#d73027');
-    Plotly.newPlot(el, [{
-      type: 'bar', x: data.map(r => r.year), y: data.map(r => r.anomaly_pct),
-      marker: { color: colors, line: { color: data.map(r => r.year === CONFIG.year ? '#333' : 'rgba(0,0,0,0.1)'), width: data.map(r => r.year === CONFIG.year ? 2.5 : 0.3) } },
-      hovertemplate: `${region}<br>Año: %{x}<br>Anomalía: %{y:+.1f}%<extra></extra>`,
-    }], {
-      title: { text: `Anomalía de precipitación de ${CONFIG.monthName} · ${region}<br><sub>Reference period: ${CONFIG.refStart}–${CONFIG.refEnd} · Data: CHIRPS v2.0 · Credit: UCSB-CHG</sub>` },
-      yaxis: { title: 'Anomalía (%)' }, template: 'plotly_white', height: 370,
-    }, { responsive: true });
-
-  } else if (view === 'allmonths') {
-    const data = pAllMonthsData.filter(r => r.variable === 'precip' && r.region === region);
-    if (!data.length) { el.innerHTML = '<p>Sin datos</p>'; return; }
-    const colors = data.map(r => r.anomaly_pct >= 0 ? '#2171b5' : '#d73027');
-    Plotly.newPlot(el, [{
-      type: 'bar', x: data.map(r => r.date), y: data.map(r => r.anomaly_pct),
-      marker: { color: colors },
-      hovertemplate: `${region}<br>%{x|%b %Y}<br>Anomalía: %{y:+.1f}%<extra></extra>`,
-    }], {
-      title: { text: `Anomalía mensual de precipitación · ${region}<br><sub>Reference period: ${CONFIG.refStart}–${CONFIG.refEnd} · Data: CHIRPS v2.0 · Credit: UCSB-CHG</sub>` },
-      yaxis: { title: 'Anomalía (%)' }, template: 'plotly_white', height: 370,
-    }, { responsive: true });
-
-  } else { // rolling12
-    const data = pAllMonthsData.filter(r => r.variable === 'precip' && r.region === region && r.rolling_12 != null);
-    if (!data.length) { el.innerHTML = '<p>Sin datos</p>'; return; }
-    const pos = data.map(r => Math.max(0, r.rolling_12));
-    const neg = data.map(r => Math.min(0, r.rolling_12));
-    const dates = data.map(r => r.date);
-    // INVERTED: blue above (more rain), red below (less rain)
-    Plotly.newPlot(el, [
-      { type: 'scatter', x: dates, y: pos, fill: 'tozeroy', fillcolor: 'rgba(33,113,181,0.5)', line: { width: 0 }, hoverinfo: 'skip', showlegend: false },
-      { type: 'scatter', x: dates, y: neg, fill: 'tozeroy', fillcolor: 'rgba(215,48,39,0.5)', line: { width: 0 }, hoverinfo: 'skip', showlegend: false },
-      { type: 'scatter', x: dates, y: data.map(r => r.rolling_12), mode: 'lines', line: { color: '#333', width: 1.2 },
-        hovertemplate: `${region}<br>%{x|%b %Y}<br>Prom. 12m: %{y:+.1f}%<extra></extra>`, showlegend: false },
-    ], {
-      title: { text: `Promedio móvil 12 meses · Precipitación · ${region}<br><sub>Reference period: ${CONFIG.refStart}–${CONFIG.refEnd} · Data: CHIRPS v2.0 · Credit: UCSB-CHG</sub>` },
-      yaxis: { title: 'Anomalía 12m (%)' }, template: 'plotly_white', height: 370,
-    }, { responsive: true });
+  if(view==='march'){
+    const d=pTrend.filter(r=>r.variable==='precip'&&r.region===reg);
+    if(!d.length){Plotly.purge(el);el.innerHTML='<p>Sin datos</p>';return;}
+    Plotly.newPlot(el,[{type:'bar',x:d.map(r=>r.year),y:d.map(r=>r.anomaly_pct),
+      marker:{color:d.map(r=>r.anomaly_pct>=0?'#2171b5':'#d73027'),
+      line:{color:d.map(r=>r.year===CFG.year?'#333':'rgba(0,0,0,.1)'),width:d.map(r=>r.year===CFG.year?2.5:.3)}},
+      hovertemplate:`${reg}<br>Año: %{x}<br>Anomalía: %{y:+.1f}%<extra></extra>`}],
+      {...PL,title:{text:`Anomalía de precipitación · ${mn} · ${reg}<br><sub>${cr}</sub>`},yaxis:{title:'Anomalía (%)'},
+      shapes:[{type:'line',x0:0,x1:1,xref:'paper',y0:0,y1:0,line:{color:'#333',width:1}}]},{responsive:true});
+  }else if(view==='allmonths'){
+    const d=pAll.filter(r=>r.variable==='precip'&&r.region===reg);
+    if(!d.length){Plotly.purge(el);el.innerHTML='<p>Sin datos</p>';return;}
+    Plotly.newPlot(el,[{type:'bar',x:d.map(r=>r.date),y:d.map(r=>r.anomaly_pct),
+      marker:{color:d.map(r=>r.anomaly_pct>=0?'#2171b5':'#d73027')},
+      hovertemplate:`${reg}<br>%{x|%b %Y}<br>Anomalía: %{y:+.1f}%<extra></extra>`}],
+      {...PL,title:{text:`Anomalía mensual · Precipitación · ${reg}<br><sub>${cr}</sub>`},yaxis:{title:'Anomalía (%)'}},{responsive:true});
+  }else{
+    const d=pAll.filter(r=>r.variable==='precip'&&r.region===reg&&r.rolling_12!=null);
+    if(!d.length){Plotly.purge(el);el.innerHTML='<p>Sin datos</p>';return;}
+    Plotly.newPlot(el,[
+      {type:'scatter',x:d.map(r=>r.date),y:d.map(r=>Math.max(0,r.rolling_12)),fill:'tozeroy',fillcolor:'rgba(33,113,181,.5)',line:{width:0},hoverinfo:'skip',showlegend:false},
+      {type:'scatter',x:d.map(r=>r.date),y:d.map(r=>Math.min(0,r.rolling_12)),fill:'tozeroy',fillcolor:'rgba(215,48,39,.5)',line:{width:0},hoverinfo:'skip',showlegend:false},
+      {type:'scatter',x:d.map(r=>r.date),y:d.map(r=>r.rolling_12),mode:'lines',line:{color:'#333',width:1.2},
+       hovertemplate:`${reg}<br>%{x|%b %Y}<br>Prom. 12m: %{y:+.1f}%<extra></extra>`,showlegend:false}],
+      {...PL,title:{text:`Promedio móvil 12m · Precipitación · ${reg}<br><sub>${cr}</sub>`},yaxis:{title:'Anomalía 12m (%)'},
+      shapes:[{type:'line',x0:0,x1:1,xref:'paper',y0:0,y1:0,line:{color:'#333',width:1}}]},{responsive:true});
   }
 }
 
-// Event listeners for selects
-document.getElementById('t-var-select').addEventListener('change', renderTempChart);
-document.getElementById('t-region-select').addEventListener('change', renderTempChart);
-document.getElementById('p-region-select').addEventListener('change', renderPrecipChart);
+document.getElementById('t-var-select').addEventListener('change',renderTempChart);
+document.getElementById('t-region-select').addEventListener('change',renderTempChart);
+document.getElementById('p-region-select').addEventListener('change',renderPrecipChart);
 
-// ═══════════════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════════════
-document.getElementById('hero-month').textContent = `${CONFIG.monthName} ${CONFIG.year}`;
-loadAllData();
+// ── Init ──
+setMonth(MONTHS_AVAILABLE.length - 1);
 </script>
 </body>
 </html>
