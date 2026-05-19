@@ -299,7 +299,10 @@ function renderNR(){
 }
 
 function renderHL(){
-  const el=document.getElementById('hl-content');let h='';
+  const el=document.getElementById('hl-content');
+  let h='';
+
+  // ── Nacional ──
   h+='<div class="hl-t">🇨🇴 Nacional</div><ul>';
   const tN=tSu.find(r=>r['Región']==='Colombia'&&r['Variable']==='T media');
   if(tN){const a=tN['Anomalía media (°C)'];
@@ -308,35 +311,85 @@ function renderHL(){
   if(pN){const a=pN['Anom. media (%)'];
     h+=`<li>Precipitación: <strong>${a>=0?'más lluvioso':'más seco'}</strong> de lo normal (${a>=0?'+':''}${F(a,1)}%).</li>`;}
   const tR=tRk.find(r=>r['Región']==='Colombia'&&r['Variable']==='T media');
-  if(tR)h+=`<li>Temperatura: <strong>${tR['Frase']}</strong>.</li>`;
+  if(tR)h+=`<li>Ranking temperatura: <strong>${tR['Frase']}</strong>.</li>`;
   const pR=pRk.find(r=>r['Región']==='Colombia');
-  if(pR)h+=`<li>Precipitación: <strong>${pR['Frase']}</strong>.</li>`;
+  if(pR)h+=`<li>Ranking precipitación: <strong>${pR['Frase']}</strong>.</li>`;
+
+  // ── Tendencia (promedio móvil 12 meses) ──
+  const tLast=tAl.filter(r=>r.variable==='tmean'&&r.region==='Colombia'&&r.rolling_12!=null);
+  if(tLast.length){
+    const last=tLast[tLast.length-1];
+    const val=last.rolling_12;
+    if(Math.abs(val)>0.1){
+      const dir=val>0?'por encima':'por debajo';
+      h+=`<li>Tendencia: el promedio móvil de 12 meses de temperatura se ubica <strong>${F(Math.abs(val),2)}°C ${dir}</strong> de la referencia, indicando condiciones ${val>0?'persistentemente cálidas':'persistentemente frías'}.</li>`;
+    }
+  }
+  const pLast=pAl.filter(r=>r.variable==='precip'&&r.region==='Colombia'&&r.rolling_12!=null);
+  if(pLast.length){
+    const last=pLast[pLast.length-1];
+    const val=last.rolling_12;
+    if(Math.abs(val)>5){
+      const dir=val>0?'por encima':'por debajo';
+      h+=`<li>Tendencia precipitación: el promedio móvil de 12 meses está <strong>${F(Math.abs(val),1)}% ${dir}</strong> de lo normal, sugiriendo un periodo ${val>0?'más húmedo':'más seco'} que el promedio reciente.</li>`;
+    }
+  }
   h+='</ul>';
-  h+='<div class="hl-t">📍 Por región</div><ul class="rg">';
+
+  // ── Regiones destacadas (solo top 3 o bottom 3) ──
+  const notables=[];
+  const tRegs=tRk.filter(r=>r['Variable']==='T media'&&r['Región']!=='Colombia');
+  const pRegs=pRk.filter(r=>r['Región']!=='Colombia');
+
+  for(const r of tRegs){
+    const parts=r['Rank'].split('/');
+    const rank=parseInt(parts[0]), total=parseInt(parts[1]);
+    const coldRank=total-rank+1;
+    if(rank<=3) notables.push(`<strong>${RL[r['Región']]||r['Región']}</strong>: ${r['Frase']} (T: ${r['Anomalía']})`);
+    else if(coldRank<=3) notables.push(`<strong>${RL[r['Región']]||r['Región']}</strong>: ${r['Frase']} (T: ${r['Anomalía']})`);
+  }
+  for(const r of pRegs){
+    const parts=r['Rank'].split('/');
+    const rank=parseInt(parts[0]), total=parseInt(parts[1]);
+    const dryRank=total-rank+1;
+    if(rank<=3) notables.push(`<strong>${RL[r['Región']]||r['Región']}</strong>: ${r['Frase']} (${F(r['Anomalía_%'],1)}%)`);
+    else if(dryRank<=3) notables.push(`<strong>${RL[r['Región']]||r['Región']}</strong>: ${r['Frase']} (${F(r['Anomalía_%'],1)}%)`);
+  }
+
+  if(notables.length){
+    h+='<div class="hl-t">⚠️ Regiones con registros notables</div><ul>';
+    notables.forEach(n=>{h+=`<li>${n}</li>`;});
+    h+='</ul>';
+  }
+
+  // ── Resumen por región (grid compacto) ──
+  h+='<div class="hl-t">📍 Resumen por región</div><ul class="rg">';
   for(const reg of REGS){const lb=RL[reg];const parts=[];
     const tr=tSu.find(r=>r['Región']===reg&&r['Variable']==='T media');
     if(tr){const a=tr['Anomalía media (°C)'];parts.push(`T: ${a>=0?'+':''}${F(a,1)}°C`);}
     const pr=pSu.find(r=>r['Región']===reg);
-    if(pr){const a=pr['Anom. media (%)'];parts.push(`Precip: ${a>=0?'+':''}${F(a,0)}%`);}
-    // Regional ranking
-    const trk=tRk.find(r=>r['Región']===reg&&r['Variable']==='T media');
-    const prk=pRk.find(r=>r['Región']===reg);
-    let rkTxt='';
-    if(trk)rkTxt+=`T: ${trk['Rank']}`;
-    if(prk)rkTxt+=(rkTxt?' · ':'')+ `P: ${prk['Rank']}`;
-    h+=`<li><strong>${lb}</strong>${parts.join(' · ')}${rkTxt?' · Rank: '+rkTxt:''}</li>`;}
+    if(pr){const a=pr['Anom. media (%)'];parts.push(`P: ${a>=0?'+':''}${F(a,0)}%`);}
+    h+=`<li><strong>${lb}</strong>${parts.join(' · ')}</li>`;}
   h+='</ul>';
   el.innerHTML=h||'<p>Sin datos disponibles.</p>';
 }
 
 function renderTT(){
+  // Actualizar headers
+  document.querySelector('#t-tbl thead').innerHTML=
+    '<tr><th>Región</th><th class="n">T media (°C)</th><th class="n">Anomalía (°C)</th><th class="n">% área &gt;+1°C</th><th class="n">% área &lt;−1°C</th><th class="n">Ranking</th></tr>';
   const tb=document.querySelector('#t-tbl tbody');
   const rows=tSu.filter(r=>r['Variable']==='T media');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="5">Sin datos</td></tr>';return;}
-  tb.innerHTML=rows.map(r=>{const a=r['Anomalía media (°C)'];
+  if(!rows.length){tb.innerHTML='<tr><td colspan="6">Sin datos</td></tr>';return;}
+  tb.innerHTML=rows.map(r=>{
+    const a=r['Anomalía media (°C)'];
+    const rk=tRk.find(x=>x['Región']===r['Región']&&x['Variable']==='T media');
+    const rkText=rk?rk['Rank']:'–';
+    const rkPhrase=rk?rk['Frase']:'';
     return`<tr><td>${RL[r['Región']]||r['Región']}</td><td class="n">${F(r['T mes (°C)'],1)}</td>
     <td class="n ${a>=0?'pos':'neg'}">${a>=0?'+':''}${F(a,2)}</td>
-    <td class="n">${F(r['% área >+1°C'],0)}%</td><td class="n">${F(r['% área <−1°C'],0)}%</td></tr>`;}).join('');
+    <td class="n">${F(r['% área >+1°C'],0)}%</td><td class="n">${F(r['% área <−1°C'],0)}%</td>
+    <td class="n" title="${rkPhrase}">${rkText}</td></tr>`;}).join('');
 }
 function renderPT(){
   const tb=document.querySelector('#p-tbl tbody');
