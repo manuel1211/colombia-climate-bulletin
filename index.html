@@ -665,28 +665,48 @@ function renderNarratives() {
 
 function renderHighlights() {
   const items = [];
-  // Temperature highlight
+  const regions = ['Caribe','Andina','Pacifica','Orinoquia','Amazonia'];
+
+  // ── Nacional ──
+  items.push('<strong style="font-size:15px;">Resumen nacional</strong>');
   const tNat = tSummaryData.find(r => r['Región'] === 'Colombia' && r['Variable'] === 'T media');
   if (tNat) {
     const a = tNat['Anomalía media (°C)'];
     const sign = a >= 0 ? 'más cálido' : 'más frío';
-    items.push(`La temperatura media nacional de ${CONFIG.monthName} fue de <strong>${tNat['T mes (°C)']?.toFixed(1)}°C</strong>, ${sign} de lo normal (anomalía ${a >= 0 ? '+' : ''}${a?.toFixed(2)}°C vs. ${CONFIG.refStart}–${CONFIG.refEnd}).`);
+    items.push(`Temperatura media nacional: <strong>${tNat['T mes (°C)']?.toFixed(1)}°C</strong> (${sign}, anomalía ${a>=0?'+':''}${a?.toFixed(2)}°C vs. ${CONFIG.refStart}–${CONFIG.refEnd}).`);
   }
-  // Precip highlight
   const pNat = pSummaryData.find(r => r['Región'] === 'Colombia');
   if (pNat) {
     const a = pNat['Anom. media (%)'];
     const sign = a >= 0 ? 'más lluvioso' : 'más seco';
-    items.push(`La precipitación nacional fue <strong>${sign}</strong> de lo normal (${a >= 0 ? '+' : ''}${a?.toFixed(1)}% vs. ${CONFIG.refStart}–${CONFIG.refEnd}).`);
+    items.push(`Precipitación nacional: <strong>${sign}</strong> de lo normal (${a>=0?'+':''}${a?.toFixed(1)}% vs. ${CONFIG.refStart}–${CONFIG.refEnd}).`);
   }
-  // Rankings
   const tRk = tRankingData.find(r => r['Región'] === 'Colombia' && r['Variable'] === 'T media');
-  if (tRk) items.push(`Temperatura: <strong>${tRk['Frase']}</strong>.`);
+  if (tRk) items.push(`Ranking temperatura: <strong>${tRk['Frase']}</strong>.`);
   const pRk = pRankingData.find(r => r['Región'] === 'Colombia');
-  if (pRk) items.push(`Precipitación: <strong>${pRk['Frase']}</strong>.`);
+  if (pRk) items.push(`Ranking precipitación: <strong>${pRk['Frase']}</strong>.`);
+
+  // ── Regional ──
+  items.push('<br><strong style="font-size:15px;">Resumen por región</strong>');
+  for (const reg of regions) {
+    const parts = [];
+    const tR = tSummaryData.find(r => r['Región'] === reg && r['Variable'] === 'T media');
+    if (tR) {
+      const a = tR['Anomalía media (°C)'];
+      parts.push(`T ${a>=0?'+':''}${a?.toFixed(1)}°C`);
+    }
+    const pR = pSummaryData.find(r => r['Región'] === reg);
+    if (pR) {
+      const a = pR['Anom. media (%)'];
+      parts.push(`precip. ${a>=0?'+':''}${a?.toFixed(0)}%`);
+    }
+    if (parts.length) {
+      items.push(`<strong>${reg}</strong>: ${parts.join(' · ')}.`);
+    }
+  }
 
   const list = document.getElementById('highlights-list');
-  list.innerHTML = items.length ? items.map(i => `<li>${i}</li>`).join('') : '<li>Sin datos disponibles.</li>';
+  list.innerHTML = items.map(i => `<li>${i}</li>`).join('');
 }
 
 function renderTempTable() {
