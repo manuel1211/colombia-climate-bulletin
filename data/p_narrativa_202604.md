@@ -4,13 +4,13 @@ En abril 2026, la precipitación media nacional fue de **266 mm**, equivalente a
 
 Los mayores excesos de precipitación se observaron en **Orinoquia y Andina**; la menor anomalía se registró en **Pacifica**.
 
-A escala nacional, abril de 2026 fue el **Posición 24 de 36 (más lluvioso)**.
+A escala nacional, abril de 2026 fue el **Posición 13 de 36 (más seco que la mediana)**.
 
 ### Rankings por región
 
-- **Colombia**: Posición 24 de 36 (más lluvioso) — 266 mm (-6.8%)
-- **Caribe**: Posición 30 de 36 (más lluvioso) — 104 mm (-19.8%)
-- **Andina**: Posición 26 de 36 (más lluvioso) — 211 mm (-11.1%)
+- **Colombia**: Posición 13 de 36 (más seco que la mediana) — 266 mm (-6.8%)
+- **Caribe**: Posición 7 de 36 (más seco que la mediana) — 104 mm (-19.8%)
+- **Andina**: Posición 11 de 36 (más seco que la mediana) — 211 mm (-11.1%)
 - **Pacifica**: 1.er abril más seco de 36 — 277 mm (-23.5%)
-- **Orinoquia**: Posición 9 de 36 (más lluvioso) — 312 mm (+17.9%)
-- **Amazonia**: Posición 28 de 36 (más lluvioso) — 316 mm (-9.9%)
+- **Orinoquia**: Posición 9 de 36 (más lluvioso que la mediana) — 312 mm (+17.9%)
+- **Amazonia**: Posición 9 de 36 (más seco que la mediana) — 316 mm (-9.9%)
